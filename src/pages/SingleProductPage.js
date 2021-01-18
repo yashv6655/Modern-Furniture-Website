@@ -25,7 +25,7 @@ const SingleProductPage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    fetchSingleProduct(`${url}${id}s`);
+    fetchSingleProduct(`${url}${id}`);
   }, [id]);
 
   useEffect(() => {
@@ -44,9 +44,49 @@ const SingleProductPage = () => {
     return <Error />;
   }
 
+  const {
+    name,
+    price,
+    description,
+    stock,
+    stars,
+    reviews,
+    id: sku,
+    company,
+    images,
+  } = product;
+
   return (
     <Wrapper>
-      <div>SingleProd</div>
+      <PageHero title={name} product />
+      <div className="section section-center page">
+        <Link to="/products" className="btn">
+          Back
+        </Link>
+        <div className="product-center">
+          <ProductImages />
+          <section className="content">
+            <h2>{name}</h2>
+            <Stars />
+            <h5 className="price">{formatPrice(price)}</h5>
+            <p className="desc">{description}</p>
+            <p className="info">
+              <span>Available:</span>
+              {stock > 0 ? "In Stock" : "Out of Stock"}
+            </p>
+            <p className="info">
+              <span>ID:</span>
+              {sku}
+            </p>
+            <p className="info">
+              <span>Brand:</span>
+              {company}
+            </p>
+            <hr />
+            <AddToCart />
+          </section>
+        </div>
+      </div>
     </Wrapper>
   );
 };
