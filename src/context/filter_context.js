@@ -13,7 +13,7 @@ import {
 import { useProductsContext } from "./products_context";
 
 const initialState = {
-  filter_products: [],
+  filtered_products: [],
   all_products: [],
 };
 
