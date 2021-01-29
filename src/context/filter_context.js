@@ -29,6 +29,10 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: LOAD_PRODUCTS, payload: products });
   }, [products]);
 
+  useEffect(() => {
+    dispatch({ type: SORT_PRODUCTS });
+  }, [products, state.sort]);
+
   const setGridView = () => {
     dispatch({ type: SET_GRIDVIEW });
   };
@@ -40,7 +44,7 @@ export const FilterProvider = ({ children }) => {
   const updateSort = (e) => {
     // const name = e.target.name;
     const value = e.target.value;
-    dispatch({ type: UPDATE_SORT, paylod: value });
+    dispatch({ type: UPDATE_SORT, payload: value });
   };
 
   return (
@@ -51,7 +55,7 @@ export const FilterProvider = ({ children }) => {
     </FilterContext.Provider>
   );
 };
-// make sure use
+
 export const useFilterContext = () => {
   return useContext(FilterContext);
 };
