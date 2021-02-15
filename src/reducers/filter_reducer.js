@@ -8,6 +8,7 @@ import {
   FILTER_PRODUCTS,
   CLEAR_FILTERS,
 } from "../actions";
+import products_reducer from "./products_reducer";
 
 const filter_reducer = (state, action) => {
   if (action.type === LOAD_PRODUCTS) {
@@ -62,8 +63,37 @@ const filter_reducer = (state, action) => {
     return { ...state, filters: { ...state.filters, [name]: value } };
   }
   if (action.type === FILTER_PRODUCTS) {
-    console.log("filtering products");
-    return { ...state };
+    const { all_products } = state;
+    const { text, category, company, color, price, shipping } = state.filters;
+    let tempProducts = [...all_products];
+
+    if (text) {
+      tempProducts = tempProducts.filter((p) =>
+        p.name.toLowerCase().includes(text)
+      );
+    }
+
+    if (category !== "all") {
+      tempProducts = tempProducts.filter((p) => p.category === category);
+    }
+
+    if (company !== "all") {
+      tempProducts = tempProducts.filter((p) => p.company === company);
+    }
+
+    if (color !== "all") {
+      tempProducts = tempProducts.filter((p) =>
+        p.colors.find((c) => c === color)
+      );
+    }
+
+    tempProducts = tempProducts.filter((p) => p.price <= price);
+
+    if (shipping) {
+      tempProducts = tempProducts.filter((p) => p.shipping === true);
+    }
+
+    return { ...state, filtered_products: tempProducts };
   }
   if (action.type === CLEAR_FILTERS) {
     return {
